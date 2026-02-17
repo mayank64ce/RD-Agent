@@ -20,6 +20,7 @@ from importlib.resources import path as rpath
 import typer
 
 from rdagent.app.data_science.loop import main as data_science
+from rdagent.app.fhe_challenge.loop import main as fhe_challenge
 from rdagent.app.general_model.general_model import (
     extract_models_and_implement as general_model,
 )
@@ -75,6 +76,7 @@ app.command(name="fin_quant")(fin_quant)
 app.command(name="fin_factor_report")(fin_factor_report)
 app.command(name="general_model")(general_model)
 app.command(name="data_science")(data_science)
+app.command(name="fhe_challenge")(fhe_challenge)
 app.command(name="grade_summary")(grade_summary)
 app.command(name="ui")(ui)
 app.command(name="server_ui")(server_ui)
