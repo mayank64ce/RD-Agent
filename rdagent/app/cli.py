@@ -35,13 +35,20 @@ from rdagent.log.mle_summary import grade_summary as grade_summary
 app = typer.Typer()
 
 
-def ui(port=19899, log_dir="", debug: bool = False, data_science: bool = False):
+def ui(port=19899, log_dir="", debug: bool = False, data_science: bool = False, fhe: bool = False):
     """
     start web app to show the log traces.
     """
     if data_science:
         with rpath("rdagent.log.ui", "dsapp.py") as app_path:
             cmds = ["streamlit", "run", app_path, f"--server.port={port}"]
+            subprocess.run(cmds)
+        return
+    if fhe:
+        with rpath("rdagent.log.ui", "fheapp.py") as app_path:
+            cmds = ["streamlit", "run", str(app_path), f"--server.port={port}"]
+            if log_dir:
+                cmds += ["--", f"--log_dir={log_dir}"]
             subprocess.run(cmds)
         return
     with rpath("rdagent.log.ui", "app.py") as app_path:
@@ -70,6 +77,18 @@ def ds_user_interact(port=19900):
     subprocess.run(commands)
 
 
+def fhe_ui(port=19901, log_folder="./log"):
+    """
+    Start the FHE challenge trace viewer (Streamlit web UI).
+
+    Shows per-loop algorithm plans, generated C++ code, Docker output,
+    and accuracy – even when all attempts failed.
+    """
+    with rpath("rdagent.log.ui", "fheapp.py") as app_path:
+        cmds = ["streamlit", "run", str(app_path), f"--server.port={port}"]
+        subprocess.run(cmds)
+
+
 app.command(name="fin_factor")(fin_factor)
 app.command(name="fin_model")(fin_model)
 app.command(name="fin_quant")(fin_quant)
@@ -83,6 +102,7 @@ app.command(name="server_ui")(server_ui)
 app.command(name="health_check")(health_check)
 app.command(name="collect_info")(collect_info)
 app.command(name="ds_user_interact")(ds_user_interact)
+app.command(name="fhe_ui")(fhe_ui)
 
 
 if __name__ == "__main__":
