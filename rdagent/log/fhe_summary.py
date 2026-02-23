@@ -77,6 +77,7 @@ def _summarize_one_run(log_trace_path: Path) -> dict:
     best_accuracy: float | None = None
     challenge_name: str | None = None
     challenge_type: str | None = None
+    chat_model: str | None = None
 
     accuracies_by_loop: dict[int, float | None] = {}
     build_ok_by_loop: dict[int, bool] = {}
@@ -104,6 +105,7 @@ def _summarize_one_run(log_trace_path: Path) -> dict:
         if "FHE_SETTINGS" in msg.tag and isinstance(msg.content, dict):
             challenge_name = Path(msg.content.get("challenge_dir", "")).name or None
             challenge_type = msg.content.get("challenge_type", None)
+            chat_model = msg.content.get("chat_model", None)
 
         # Hypothesis (algorithm plan)
         if loop_id is not None and "direct_exp_gen" in msg.tag and "hypothesis" in msg.tag:
@@ -131,6 +133,7 @@ def _summarize_one_run(log_trace_path: Path) -> dict:
     return {
         "challenge_name": challenge_name or log_trace_path.name,
         "challenge_type": challenge_type or "unknown",
+        "chat_model": chat_model or "unknown",
         "loop_num": loop_num,
         "pass_num": pass_num,
         "best_accuracy": best_accuracy,
@@ -153,6 +156,7 @@ def _print_summary(stat: dict) -> None:
         solved = "YES ✓" if s["pass_num"] > 0 else "NO ✗"
         print(f"\nRun:             {trace_name}")
         print(f"  Challenge:     {s['challenge_name']} ({s['challenge_type']})")
+        print(f"  Model:         {s['chat_model']}")
         print(f"  Total Loops:   {s['loop_num']}")
         print(f"  Passed Loops:  {s['pass_num']}  →  Solved: {solved}")
         print(f"  Best Accuracy: {acc_str}")

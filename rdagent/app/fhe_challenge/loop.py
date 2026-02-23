@@ -53,7 +53,9 @@ class FHERDLoop(LoopBase, metaclass=LoopMeta):
 
         self.scen = FHEScenario(setting.challenge_dir)
         logger.log_object(self.scen, tag="scenario")
-        logger.log_object(setting.model_dump(), tag="FHE_SETTINGS")
+        from rdagent.oai.llm_conf import LLM_SETTINGS
+
+        logger.log_object({**setting.model_dump(), "chat_model": LLM_SETTINGS.chat_model}, tag="FHE_SETTINGS")
 
         self.exp_gen = FHEExpGen(self.scen)
         self.coder = FHECoder(self.scen)

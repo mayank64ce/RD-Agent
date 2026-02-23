@@ -30,6 +30,7 @@ from rdagent.app.qlib_rd_loop.model import main as fin_model
 from rdagent.app.qlib_rd_loop.quant import main as fin_quant
 from rdagent.app.utils.health_check import health_check
 from rdagent.app.utils.info import collect_info
+from rdagent.log.fhe_summary import summarize_fhe as fhe_summary
 from rdagent.log.mle_summary import grade_summary as grade_summary
 
 app = typer.Typer()
@@ -96,6 +97,7 @@ app.command(name="fin_factor_report")(fin_factor_report)
 app.command(name="general_model")(general_model)
 app.command(name="data_science")(data_science)
 app.command(name="fhe_challenge")(fhe_challenge)
+app.command(name="fhe_summary")(fhe_summary)
 app.command(name="grade_summary")(grade_summary)
 app.command(name="ui")(ui)
 app.command(name="server_ui")(server_ui)
