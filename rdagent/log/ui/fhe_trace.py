@@ -131,13 +131,36 @@ def get_loop_ids(data: dict) -> list[int]:
     return sorted(k for k in data if isinstance(k, int))
 
 
-def get_latest_code(data: dict) -> tuple[dict | None, int | None]:
+def get_best_code(data: dict) -> tuple[dict | None, int | None]:
     """
-    Return (file_dict, loop_id) of the most recently generated code.
+    Return (file_dict, loop_id) of the code with the highest accuracy.
 
-    Searches loop IDs in reverse order; prefers running workspace over
-    coding workspace.  Returns (None, None) if no code was generated.
+    Falls back to the most recently generated code if no loop has accuracy.
+    Returns (None, None) if no code was generated.
     """
+    best_fd = None
+    best_li = None
+    best_acc = -1.0
+
+    latest_fd = None
+    latest_li = None
+
+    for li in get_loop_ids(data):
+        loop = data[li]
+        run_exp = loop.get("running", {}).get("run_experiment")
+        if isinstance(run_exp, FHEExperiment) and run_exp.experiment_workspace:
+            fd = run_exp.experiment_workspace.file_dict
+            if fd:
+                latest_fd, latest_li = fd, li
+                acc = run_exp.accuracy if run_exp.accuracy is not None else -1.0
+                if acc > best_acc:
+                    best_acc = acc
+                    best_fd, best_li = fd, li
+
+    if best_fd is not None:
+        return best_fd, best_li
+
+    # Fallback: most recently generated code (even without a run result)
     for li in reversed(get_loop_ids(data)):
         loop = data[li]
         for fn, key in [("running", "run_experiment"), ("coding", "coded_experiment")]:
@@ -285,11 +308,14 @@ def summary_win(data: dict):
     else:
         st.info("No accuracy scores recorded yet.")
 
-    # ----- Latest generated code -----
-    st.subheader("Latest Generated Code", divider="gray")
-    file_dict, from_loop = get_latest_code(data)
+    # ----- Best generated code -----
+    st.subheader("Best Generated Code", divider="gray")
+    file_dict, from_loop = get_best_code(data)
     if file_dict:
-        st.caption(f"From Loop {from_loop}")
+        loop = data.get(from_loop, {})
+        run_exp = loop.get("running", {}).get("run_experiment")
+        acc_label = f", accuracy={run_exp.accuracy:.4f}" if isinstance(run_exp, FHEExperiment) and run_exp.accuracy is not None else ""
+        st.caption(f"From Loop {from_loop}{acc_label}")
         _show_file_dict(file_dict)
     else:
         st.info("No generated code found in any loop.")

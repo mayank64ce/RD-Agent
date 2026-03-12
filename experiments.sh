@@ -20,17 +20,17 @@ set -e
 
 # --- white_box/openfhe ---
 
-CHAT_MODEL=gpt-4o-mini rdagent fhe_challenge --challenge-dir ../fhe_challenge/white_box/openfhe/challenge_gelu --loop-n 10
-CHAT_MODEL=gpt-4o-mini rdagent fhe_challenge --challenge-dir ../fhe_challenge/white_box/openfhe/challenge_softmax --loop-n 10
-CHAT_MODEL=gpt-4o-mini rdagent fhe_challenge --challenge-dir ../fhe_challenge/white_box/openfhe/challenge_shl --loop-n 10
-CHAT_MODEL=gpt-4o-mini rdagent fhe_challenge --challenge-dir ../fhe_challenge/white_box/openfhe/challenge_array_sorting --loop-n 10
-CHAT_MODEL=gpt-4o-mini rdagent fhe_challenge --challenge-dir ../fhe_challenge/white_box/openfhe/challenge_lookup_table --loop-n 10
-CHAT_MODEL=gpt-4o-mini rdagent fhe_challenge --challenge-dir ../fhe_challenge/white_box/openfhe/challenge_matrix_multiplication --loop-n 10
-CHAT_MODEL=gpt-4o-mini rdagent fhe_challenge --challenge-dir ../fhe_challenge/white_box/openfhe/challenge_max --loop-n 10
-CHAT_MODEL=gpt-4o-mini rdagent fhe_challenge --challenge-dir ../fhe_challenge/white_box/openfhe/challenge_knn --loop-n 10
-CHAT_MODEL=gpt-4o-mini rdagent fhe_challenge --challenge-dir ../fhe_challenge/white_box/openfhe/challenge_parity --loop-n 10
-CHAT_MODEL=gpt-4o-mini rdagent fhe_challenge --challenge-dir ../fhe_challenge/white_box/openfhe/challenge_invertible_matrix --loop-n 10
-CHAT_MODEL=gpt-4o-mini rdagent fhe_challenge --challenge-dir ../fhe_challenge/white_box/openfhe/challenge_svd --loop-n 10
+# CHAT_MODEL=gpt-4o-mini rdagent fhe_challenge --challenge-dir ../fhe_challenge/white_box/openfhe/challenge_gelu --loop-n 10
+# CHAT_MODEL=gpt-4o-mini rdagent fhe_challenge --challenge-dir ../fhe_challenge/white_box/openfhe/challenge_softmax --loop-n 10
+# CHAT_MODEL=gpt-4o-mini rdagent fhe_challenge --challenge-dir ../fhe_challenge/white_box/openfhe/challenge_shl --loop-n 10
+# CHAT_MODEL=gpt-4o-mini rdagent fhe_challenge --challenge-dir ../fhe_challenge/white_box/openfhe/challenge_array_sorting --loop-n 10
+# CHAT_MODEL=gpt-4o-mini rdagent fhe_challenge --challenge-dir ../fhe_challenge/white_box/openfhe/challenge_lookup_table --loop-n 10
+# CHAT_MODEL=gpt-4o-mini rdagent fhe_challenge --challenge-dir ../fhe_challenge/white_box/openfhe/challenge_matrix_multiplication --loop-n 10
+# CHAT_MODEL=gpt-4o-mini rdagent fhe_challenge --challenge-dir ../fhe_challenge/white_box/openfhe/challenge_max --loop-n 10
+# CHAT_MODEL=gpt-4o-mini rdagent fhe_challenge --challenge-dir ../fhe_challenge/white_box/openfhe/challenge_knn --loop-n 10
+# CHAT_MODEL=gpt-4o-mini rdagent fhe_challenge --challenge-dir ../fhe_challenge/white_box/openfhe/challenge_parity --loop-n 10
+# CHAT_MODEL=gpt-4o-mini rdagent fhe_challenge --challenge-dir ../fhe_challenge/white_box/openfhe/challenge_invertible_matrix --loop-n 10
+# CHAT_MODEL=gpt-4o-mini rdagent fhe_challenge --challenge-dir ../fhe_challenge/white_box/openfhe/challenge_svd --loop-n 10
 
 
 # # ============================================================
@@ -52,7 +52,7 @@ CHAT_MODEL=gpt-4o-mini rdagent fhe_challenge --challenge-dir ../fhe_challenge/wh
 
 # # --- white_box/openfhe ---
 
-# CHAT_MODEL=gpt-5-mini CHAT_TEMPERATURE=1 rdagent fhe_challenge --challenge-dir ../fhe_challenge/white_box/openfhe/challenge_gelu --loop-n 10
+CHAT_MODEL=gpt-5-mini CHAT_TEMPERATURE=1 rdagent fhe_challenge --challenge-dir ../fhe_challenge/white_box/openfhe/challenge_gelu --loop-n 10
 # CHAT_MODEL=gpt-5-mini CHAT_TEMPERATURE=1 rdagent fhe_challenge --challenge-dir ../fhe_challenge/white_box/openfhe/challenge_softmax --loop-n 10
 # CHAT_MODEL=gpt-5-mini CHAT_TEMPERATURE=1 rdagent fhe_challenge --challenge-dir ../fhe_challenge/white_box/openfhe/challenge_shl --loop-n 10
 # CHAT_MODEL=gpt-5-mini CHAT_TEMPERATURE=1 rdagent fhe_challenge --challenge-dir ../fhe_challenge/white_box/openfhe/challenge_array_sorting --loop-n 10

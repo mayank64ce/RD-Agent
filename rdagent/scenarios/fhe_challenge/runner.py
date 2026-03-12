@@ -178,11 +178,14 @@ class FHERunner(Developer):
         for fname, content in ws.file_dict.items():
             (app_build / fname).write_text(content)
 
-        # Symlink tests/ → challenge_dir/tests/
+        # Copy tests/ into workspace (symlinks break across Docker volume mounts)
         tests_link = workspace_path / "tests"
         if tests_link.exists() or tests_link.is_symlink():
-            tests_link.unlink()
-        tests_link.symlink_to((challenge_dir / "tests").resolve())
+            if tests_link.is_symlink() or tests_link.is_file():
+                tests_link.unlink()
+            else:
+                shutil.rmtree(tests_link)
+        shutil.copytree((challenge_dir / "tests").resolve(), tests_link)
 
         # Run fherma-validator
         logger.info("[FHERunner] Running fherma-validator Docker image")
