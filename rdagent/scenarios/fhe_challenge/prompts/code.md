@@ -41,7 +41,7 @@ auto result = m_cc->EvalAdd(m_InputC, m_InputC);
 m_OutputC = result;
 ```
 
-For **white_box** challenges only, you may optionally provide updated crypto parameters in a JSON block:
+For **white_box** challenges, you MUST also provide crypto parameters in a JSON block (required):
 
 ```json
 {{
@@ -52,7 +52,6 @@ For **white_box** challenges only, you may optionally provide updated crypto par
 ```
 
 **Important notes:**
-- Only include parameter changes that are necessary for your algorithm
-- The `mult_depth` must be sufficient for your multiplicative depth
-- Include rotation indices only if you use `EvalRotate`
+- Set `mult_depth` to match the multiplicative depth of your algorithm
+- Include rotation indices only if you use `EvalRotate`; use an empty list `[]` otherwise
 - Do NOT change the encryption scheme unless the challenge allows it

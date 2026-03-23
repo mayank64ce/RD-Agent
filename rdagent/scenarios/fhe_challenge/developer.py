@@ -76,12 +76,19 @@ class FHECoder(Developer):
         # Write modified cpp to workspace using relative path (for runner to use)
         exp.experiment_workspace.inject_files(**{"yourSolution.cpp": modified_cpp})
 
-        # For white_box: also extract optional config.json block
+        # For white_box: extract config.json block from LLM response;
+        # fall back to the original challenge config so file_dict always has it.
         if self.scen.challenge_type == "white_box":
             config = self._extract_config(response)
             if config is not None:
                 exp.experiment_workspace.inject_files(**{"config.json": json.dumps(config, indent=2)})
-                logger.info("[FHECoder] Extracted and stored modified config.json")
+                logger.info("[FHECoder] Extracted and stored LLM-provided config.json")
+            else:
+                # Fall back to original challenge config
+                original_config = self.scen.template_files.get("config.json")
+                if original_config:
+                    exp.experiment_workspace.inject_files(**{"config.json": original_config})
+                    logger.info("[FHECoder] LLM provided no config.json; using original challenge config")
 
         logger.log_object({"eval_body_lines": eval_body.count("\n") + 1}, tag="code_stats")
         return exp
